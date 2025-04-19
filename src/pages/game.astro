@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GameScreen from '../components/GameScreen';
+---
+
+<Layout title="控射挑战 - 游戏中">
+  <main class="w-full max-w-5xl mx-auto p-6 sm:p-4 flex flex-col items-center justify-center animate-fadeIn">
+    <!-- 游戏加载或初始化提示，包含倒计时 -->
+    <div id="gameInit" class="mb-6 p-4 bg-purple-800 bg-opacity-50 text-white rounded-lg shadow-md text-center sm:text-sm sm:mb-4 max-w-2xl animate-pulse">
+      <p>游戏加载中... 准备迎接挑战！</p>
+      <p id="countdown" class="text-2xl font-bold mt-2 sm:text-lg">倒计时: 3</p>
+    </div>
+    <!-- 游戏屏幕组件容器 -->
+    <div class="w-full">
+      <GameScreen client:load />
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* 页面加载动画 - 渐入效果 */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  /* 游戏初始化提示动画 */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+  .animate-pulse {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+</style>
+
+<script>
+  // 页面加载完成后隐藏游戏初始化提示，并执行倒计时
+  document.addEventListener('DOMContentLoaded', () => {
+    const gameInit = document.getElementById('gameInit');
+    const countdownElement = document.getElementById('countdown');
+    const gameError = document.getElementById('gameError');
+    const retryButton = document.getElementById('retryButton');
+
+    if (gameInit && countdownElement) {
+      let countdown = 3;
+      const countdownInterval = setInterval(() => {
+        countdown -= 1;
+        if (countdown > 0) {
+          countdownElement.textContent = `倒计时: ${countdown}`;
+        } else {
+          countdownElement.textContent = '开始挑战！';
+          clearInterval(countdownInterval);
+          setTimeout(() => {
+            gameInit.classList.add('hidden');
+          }, 1000); // 倒计时结束后再隐藏提示
+        }
+      }, 1000);
+    }
+
+    // 简单的错误处理逻辑 - 检测 GameScreen 是否加载失败
+    setTimeout(() => {
+      const gameScreen = document.querySelector('[data-astro-component="GameScreen"]');
+      if (!gameScreen && gameError) {
+        gameError.classList.remove('hidden');
+      }
+    }, 5000); // 5秒后检查是否加载失败
+
+    // 重试按钮逻辑 - 刷新页面
+    if (retryButton) {
+      retryButton.addEventListener('click', () => {
+        window.location.reload();
+      });
+    }
+  });
+</script>
