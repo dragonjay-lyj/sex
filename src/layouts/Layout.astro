@@ -1,120 +1,59 @@
 ---
-import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+const title = '控射挑战 - 互动小游戏网站';
+const description = '参与控射挑战，测试你的控制力，体验刺激的互动小游戏。';
+const canonicalUrl = 'https:/edge.dragonjay.top';
 ---
 
-<!doctype html>
 <html lang="zh-CN">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="控射挑战 - 一个刺激的成人小游戏，挑战你的控制力和耐力！" />
-		<meta name="keywords" content="控射游戏, 成人小游戏, 边缘挑战, 互动游戏" />
-		<meta name="author" content="Game Dev Team" />
-		<title id="pageTitle">控射挑战 - 刺激互动游戏</title>
-		<!-- 预加载样式资源以提升加载速度 -->
-		<link rel="preload" href="/styles/global.css" as="style" />
-		<meta name="msvalidate.01" content="837ADF036608F017D591091E96AD9F9C" />
-	</head>
-	<body class="bg-gradient-to-br from-black to-purple-900 text-white min-h-screen flex flex-col items-center justify-center p-4 sm:p-2 transition-colors duration-500">
-		<!-- 加载 spinner - 页面加载时的过渡效果，个性化设计 -->
-		<div id="loader" class="fixed inset-0 flex flex-col items-center justify-center bg-black z-50 transition-opacity duration-500 opacity-100">
-			<div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-purple-500 sm:h-12 sm:w-12 mb-4"></div>
-			<p class="text-white text-lg sm:text-sm animate-pulse">加载中... 准备迎接挑战！</p>
-		</div>
-		<!-- 内容插槽 - 使用动画效果加载 -->
-		<div class="w-full max-w-4xl sm:max-w-full animate-fadeIn">
-			<slot />
-		</div>
-		<!-- 主题切换按钮 - 简单的暗色/亮色模式切换，带有触摸反馈 -->
-		<button id="themeToggle" class="fixed bottom-4 right-4 bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full shadow-md sm:text-sm sm:px-3 sm:py-1.5 transition-colors duration-200 touch-manipulation hover:scale-105 active:scale-95">
-			切换主题
-		</button>
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="控射挑战, 互动小游戏, 控制力测试" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Game",
+        "name": "控射挑战",
+        "description": "一个基于时间和指令的互动小游戏，测试玩家的控制力。",
+        "genre": "互动游戏",
+        "inLanguage": "zh-CN",
+        "url": "https://yourdomain.com",
+        "publisher": {
+          "@type": "Organization",
+          "name": "控射挑战团队"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/styles/global.css" />
+    <link rel="preload" href="/fonts/custom-font.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <ViewTransitions />
+  </head>
+  <body class="bg-gray-900 text-white">
+    <header class="p-4 text-center bg-gray-800" role="banner">
+      <nav class="flex justify-center space-x-4" role="navigation" aria-label="主导航">
+        <a href="/" class="text-white hover:text-green-400 transition" aria-label="首页">首页</a>
+      </nav>
+    </header>
+    <main class="container mx-auto p-4" role="main">
+      <slot />
+    </main>
+    <footer class="p-4 text-center text-gray-500 bg-gray-800" role="contentinfo">
+      © 2023 控射挑战. 保留所有权利.
+	  联系: <a href={`mailto:lyjcody@foxmail.com`} class="transition-colors duration-300 focus:outline-none focus:ring-2 ml-1 xs:ml-2" aria-label={`Send email to lyjcody@foxmail.com`}>lyjcody@foxmail.com</a>
+    </footer>
+  </body>
 </html>
-
-<style>
-	/* 页面加载动画 - 渐入效果 */
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-			transform: translateY(20px);
-		}
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-	.animate-fadeIn {
-		animation: fadeIn 0.5s ease-out forwards;
-	}
-
-	/* 加载 spinner 样式 */
-	.animate-spin {
-		animation: spin 1s linear infinite;
-	}
-	@keyframes spin {
-		from {
-			transform: rotate(0deg);
-		}
-		to {
-			transform: rotate(360deg);
-		}
-	}
-
-	/* 隐藏加载 spinner 的逻辑 */
-	#loader {
-		display: none;
-	}
-
-	/* 主题切换样式 - 亮色模式 */
-	.light-theme {
-		background: linear-gradient(to bottom right, #ffffff, #f0e6ff);
-		color: #333;
-		transition: background 0.5s ease-out, color 0.3s ease-out;
-	}
-	.light-theme button {
-		background-color: #e2e8f0;
-		color: #333;
-		transition: background-color 0.3s ease-out, color 0.3s ease-out;
-	}
-	.light-theme button:hover {
-		background-color: #cbd5e1;
-	}
-</style>
-
-<script>
-	// 页面加载完成后隐藏加载 spinner
-	document.addEventListener('DOMContentLoaded', () => {
-		const loader = document.getElementById('loader');
-		if (loader) {
-			setTimeout(() => {
-				loader.style.opacity = '0';
-				setTimeout(() => {
-					loader.style.display = 'none';
-				}, 500);
-			}, 1000);
-		}
-
-		// 主题切换逻辑 - 暗色/亮色模式
-		const themeToggle = document.getElementById('themeToggle');
-		const pageTitle = document.getElementById('pageTitle');
-		if (themeToggle && pageTitle) {
-			themeToggle.addEventListener('click', () => {
-				document.body.classList.toggle('light-theme');
-				// 动态更新标题，增加趣味性
-				pageTitle.textContent = document.body.classList.contains('light-theme') 
-					? '控射挑战 - 明亮模式挑战！' 
-					: '控射挑战 - 刺激互动游戏';
-				localStorage.setItem('theme', document.body.classList.contains('light-theme') ? 'light' : 'dark');
-			});
-			// 加载用户保存的主题偏好
-			const savedTheme = localStorage.getItem('theme');
-			if (savedTheme === 'light') {
-				document.body.classList.add('light-theme');
-				pageTitle.textContent = '控射挑战 - 明亮模式挑战！';
-			}
-		}
-	});
-</script>

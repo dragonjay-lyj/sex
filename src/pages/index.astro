@@ -1,130 +1,124 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import GameOptions from '../components/GameOptions';
+import MainLayout from '../layouts/Layout.astro';
+import GameStateManager from '../components/GameStateManager';
+import { ViewTransitions } from 'astro:transitions';
+
+// SEO元数据
+const pageTitle = '控射挑战 - 互动射精控制游戏';
+const pageDescription = '真实计时挑战，通过三个阶段控制射精时间，体验刺激的生理训练小游戏。';
+let gameStarted = false;
+let isControlled = 'yes';
 ---
 
-<Layout title="控射挑战 - 刺激成人小游戏">
-  <main class="min-h-screen bg-gradient-to-b from-black to-purple-900 flex flex-col items-center justify-center p-6 sm:p-4">
-    <!-- 欢迎提示和引导动画，包含渐变文字和消失效果 -->
-    <div id="welcomePrompt" class="mb-8 text-center sm:mb-6 animate-pulse">
-      <h1 class="text-5xl font-bold mb-4 sm:text-3xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">欢迎来到控射挑战</h1>
-      <p class="text-white text-xl sm:text-base">选择你的挑战模式，开始刺激的游戏！</p>
+<MainLayout title={pageTitle} description={pageDescription}>
+  <ViewTransitions />
+  <article class="max-w-4xl mx-auto py-8 px-4">
+    <h1 class="text-center text-5xl font-bold mb-6">
+      <span class="animate-pulse text-red-500">⚠️</span>  
+      射精控制挑战
+    </h1>
+    
+    <div class="start-container bg-gray-800 rounded-xl p-8 shadow-lg mb-10" id="start-container">
+      <h2 class="text-center text-2xl font-semibold mb-6 text-white">请求主人恩准</h2>
+      <form id="start-form" class="space-y-6">
+        <div class="flex flex-col md:flex-row items-center">
+          <label class="w-full md:w-1/3 text-lg text-white mb-2 md:mb-0">是否渴望被控制？</label>
+          <select 
+            id="control-select"
+            class="w-full md:w-2/3 p-2 bg-gray-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            <option value="yes">是的，贱狗想要被控制</option>
+            <option value="no">不，贱狗不想被控制</option>
+          </select>
+        </div>
+        <div class="flex justify-center">
+          <button 
+            type="submit" 
+            class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+          >
+            开始挑战
+          </button>
+        </div>
+      </form>
     </div>
-    <!-- 游戏选项组件容器 -->
-    <div class="w-full max-w-md sm:max-w-full animate-fadeIn">
-      <GameOptions client:load />
+    
+    <div class="game-container bg-gray-800/50 backdrop-blur-lg rounded-xl p-8 shadow-2xl mb-10" id="game-container" style="display: none;">
+      <GameStateManager client:visible />
     </div>
-    <!-- 联系方式区域 - 固定底部栏 -->
-    <footer class="fixed bottom-0 left-0 w-full p-4 bg-gray-800 bg-opacity-80 text-white text-center sm:p-2 sm:text-sm">
-      <p class="mb-2 sm:mb-1">有问题或新功能建议？联系我们！</p>
-      <a href="mailto:lyjcody@foxmail.com" class="text-purple-400 hover:text-purple-300 transition-colors duration-200">lyjcody@foxmail.com</a>
-    </footer>
-  </main>
-</Layout>
 
-<style>
-  /* 页面加载动画 - 渐入效果 */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out forwards;
-  }
-
-  /* 欢迎提示动画 - 脉冲效果 */
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 0.7;
-    }
-    50% {
-      opacity: 1;
-    }
-  }
-  .animate-pulse {
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  /* 欢迎提示消失动画 */
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    to {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-  }
-  .animate-fadeOut {
-    animation: fadeOut 0.5s ease-out forwards;
-  }
-
-  /* 模态框渐入动画 */
-  @keyframes fadeInModal {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  .animate-fadeInModal {
-    animation: fadeInModal 0.3s ease-out forwards;
-  }
-
-  /* 模态框内容滑入动画 */
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  .animate-slideIn {
-    animation: slideIn 0.3s ease-out forwards;
-  }
-</style>
+    <!-- SEO优化内容 -->
+    <section class="seo-content mt-12 prose prose-invert max-w-none">
+      <h2 class="text-2xl font-semibold mb-4">游戏规则说明</h2>
+      <p class="text-lg">本游戏包含三个阶段，旨在测试玩家的控制力：</p>
+      <ol class="space-y-3 text-lg">
+        <li>初期阶段：45秒基础热身训练，同步生理唤醒。</li>
+        <li>中期控制：动态调速挑战，15-30秒随机指令响应。</li>
+        <li>终末阶段：5-10秒快速冲刺，精确控制射精时间窗口。</li>
+      </ol>
+      
+      <div class="mt-8 bg-gray-700 p-6 rounded-lg">
+        <h3 class="text-xl font-semibold">游戏数据统计</h3>
+        <table class="w-full mt-4 text-lg">
+          <thead>
+            <tr class="bg-gray-600">
+              <th class="p-3">阶段</th>
+              <th>平均持续时间</th>
+              <th>成功率</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-gray-600">
+              <td class="p-3">初级</td>
+              <td>45秒</td>
+              <td>68%</td>
+            </tr>
+            <tr class="border-b border-gray-600">
+              <td class="p-3">中级</td>
+              <td>30秒</td>
+              <td>42%</td>
+            </tr>
+            <tr>
+              <td class="p-3">专家级</td>
+              <td>15秒</td>
+              <td>19%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </article>
+</MainLayout>
 
 <script>
-  // 页面加载完成后处理欢迎提示的消失动画，并检查 GameOptions 是否加载成功
-  document.addEventListener('DOMContentLoaded', () => {
-    const welcomePrompt = document.getElementById('welcomePrompt');
-    const loadingError = document.getElementById('loadingError');
-    const retryButton = document.getElementById('retryButton');
-
-    if (welcomePrompt) {
-      setTimeout(() => {
-        welcomePrompt.classList.remove('animate-pulse');
-        welcomePrompt.classList.add('animate-fadeOut');
-        setTimeout(() => {
-          welcomePrompt.classList.add('hidden');
-        }, 500); // 消失动画完成后隐藏
-      }, 3000); // 3秒后开始消失动画
-    }
-
-    // 简单的错误处理逻辑 - 检测 GameOptions 是否加载失败
-    setTimeout(() => {
-      const gameOptions = document.querySelector('[data-astro-component="GameOptions"]');
-      if (!gameOptions && loadingError) {
-        loadingError.classList.remove('hidden');
-      }
-    }, 5000); // 5秒后检查是否加载失败
-
-    // 重试按钮逻辑 - 刷新页面
-    if (retryButton) {
-      retryButton.addEventListener('click', () => {
-        window.location.reload();
-      });
-    }
+  document.getElementById('start-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    document.getElementById('start-container').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
   });
 </script>
+
+<style is:global>
+  /* 动画定义 */
+  @keyframes pulse-border {
+    0% { box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.4); }
+    100% { box-shadow: 0 0 0 20px rgba(255, 82, 82, 0); }
+  }
+  
+  .game-container {
+    border: 2px solid #ff5252;
+    animation: pulse-border 2s infinite;
+  }
+
+  .start-container {
+    border: 2px solid #ff5252;
+  }
+
+  /* 响应式适配 */
+  @media (max-width: 640px) {
+    .game-container, .start-container {
+      padding: 1rem;
+      margin: 0 -1rem;
+      border-radius: 0;
+    }
+  }
+</style>

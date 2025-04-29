@@ -1,1 +1,94 @@
 @import "tailwindcss";
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.animate-heartbeat {
+  animation: heartbeat 1.5s infinite;
+}
+
+@keyframes pulse-shadow {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  100% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+}
+.animate-pulse-shadow {
+  animation: pulse-shadow 1.5s infinite;
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.8); }
+}
+.animate-fade-in-out {
+  animation: fade-in-out 3s;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.animate-flicker {
+  animation: flicker 0.5s infinite;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease-in;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.animate-pulse {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+.animate-shake {
+  animation: shake 0.3s ease-in-out infinite;
+}
+
+@keyframes pulse-danger {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  100% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+}
+.animate-pulse-danger {
+  animation: pulse-danger 1s infinite;
+}
+
+@keyframes pulse-warning {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  100% { box-shadow: 0 0 0 20px rgba(245, 158, 11, 0); }
+}
+.animate-pulse-warning {
+  animation: pulse-warning 1.5s infinite;
+}
+
+@keyframes pulse-normal {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  100% { box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+}
+.animate-pulse-normal {
+  animation: pulse-normal 2s infinite;
+}
