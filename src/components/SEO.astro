@@ -1,0 +1,44 @@
+---
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": title,
+  "description": description,
+  "applicationCategory": "Game",
+  "operatingSystem": "Web",
+};
+---
+
+<!-- 基础SEO -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- 开放图谱协议 (Open Graph) -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:type" content="website" />
+<meta property="og:image" content={`${canonicalURL}assets/og-image.jpg`} />
+
+<!-- Twitter卡片 -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={`${canonicalURL}assets/twitter-card.jpg`} />
+
+<!-- 结构化数据 -->
+<script type="application/ld+json">
+  {JSON.stringify(structuredData)}
+</script>
+
+<!-- 苹果设备优化 -->
+<meta name="apple-mobile-web-app-title" content={title} />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
